@@ -6,10 +6,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Controller {
 
@@ -34,6 +30,7 @@ public class Controller {
     }
 
     public void updateText(){
+
 
     }
 }

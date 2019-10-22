@@ -85,21 +85,13 @@ public class CourseJDBC {
         CourseJDBC CJ = new CourseJDBC();
         Connection conn = null;
         try {
-            String url = "jdbc:sqlite:C:/sqlite/Rejseplan.db";
+            String url = "jdbc:sqlite:Rejseplan.db";
             conn = CJ.connect(url);
 // con.setAutoCommit (false);
             //Select;
-            //System.out.println("Which student do your wish to find?");
-            /*
-            System.out.println("Which course do your wish to find?");
-            String course = scanner.nextLine();
-            System.out.println("Which grade did the student get?");
-            int scgrade = scanner.nextInt();
-            PreparedStatement pstmt = CJ.Updatepreparedstatement(conn);
-            */
+            // PreparedStatement pstmt = CJ.Updatepreparedstatement(conn);
+
             PreparedStatement pstmt = CJ.selectpreparedstatement(conn);
-            // pstmt.setInt(1, scgrade);
-            // pstmt.setString(3, course);
             //int rowAffected = pstmt.executeUpdate();
             //System.out.println(String.format("Rows affected %d", rowAffected));
             ResultSet res = pstmt.executeQuery();
