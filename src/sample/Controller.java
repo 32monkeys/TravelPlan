@@ -14,7 +14,9 @@ public class Controller {
     @FXML
     Button submitButt;
     @FXML
-    ChoiceBox<String> routes;
+    ChoiceBox<String> from;
+    @FXML
+    ChoiceBox<String> to;
     @FXML
     ComboBox time;
 
@@ -27,6 +29,10 @@ public class Controller {
             time.getItems().add(i+":00");
             time.getItems().add(i+":30");
         }
+
+        from.getItems().addAll("København","Høje Tåstrup", "Roskilde", "Ringsted", "Odense", "Næstved", "Nykøbing F");
+
+        to.getItems().addAll("København","Høje Tåstrup", "Roskilde", "Ringsted", "Odense", "Næstved", "Nykøbing F");
     }
 
     public void updateText(){
