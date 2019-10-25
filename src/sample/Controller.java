@@ -26,7 +26,6 @@ public class Controller {
     public void initialize() {
         //executed when GUI is ready
 
-
         submitButt.setOnAction(event -> updateText());
         for (int i = 2; i < 12; i++) {
             time.getItems().add(i + ":00");
@@ -34,8 +33,8 @@ public class Controller {
         }
 
         from.getItems().addAll("København", "Høje Tåstrup", "Roskilde", "Ringsted", "Odense", "Næstved", "Nykøbing F");
-
         to.getItems().addAll("København", "Høje Tåstrup", "Roskilde", "Ringsted", "Odense", "Næstved", "Nykøbing F");
+
     }
 
     public void updateText() {
@@ -47,27 +46,28 @@ public class Controller {
     public void runDatabase() {
         CourseJDBC CJ = new CourseJDBC();
         Connection conn = null;
+
+        String timeString = time.getValue().toString().replace(":", "");
+        int timeInt = Integer.parseInt(timeString);
+
         try {
             String url = "jdbc:sqlite:Rejseplan.db";
             conn = CJ.connect(url);
             //Select;
 
             PreparedStatement pstmt = CJ.selectPreparedStatement(conn);
+            pstmt.setString(1, to.getValue());
+            pstmt.setString(2, from.getValue());
+            pstmt.setInt(3, timeInt);
             ResultSet resultSet = pstmt.executeQuery();
 
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-            while (resultSet.next()) {
-                for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
-                    textArea.appendText(" " + resultSet.getString(i) + " ");
+                while (resultSet.next()) {
+                    textArea.appendText(
+                            "From: " + resultSet.getString(1) +
+                                    " at: " + resultSet.getString(3) +
+                                    "   To: " + resultSet.getString(2) +
+                                    " at: " + resultSet.getString(4) + "\n");
                 }
-                textArea.appendText("\n");
-                /*
-                String name = resultSet.getString("StationName");
-                textArea.appendText(name + "\n");
-                System.out.println(name);
-                */
-            }
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,4 +82,5 @@ public class Controller {
         }
     }
 }
+
 
