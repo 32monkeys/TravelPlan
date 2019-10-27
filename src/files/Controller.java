@@ -1,4 +1,4 @@
-package sample;
+package files;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,13 +39,14 @@ public class Controller {
     }
 
     public void updateText() {
+        // reset the textarea, so the appendText method doesn't keep adding stuff
         textArea.setText("");
         runDatabase();
 
     }
 
     public void runDatabase() {
-        CourseJDBC CJ = new CourseJDBC();
+        Database database = new Database();
         Connection conn = null;
 
         //converting String of options in time to Integer for comparison in sql query
@@ -54,14 +55,16 @@ public class Controller {
 
         try {
             String url = "jdbc:sqlite:Rejseplan.db";
-            conn = CJ.connect(url);
-            //Select;
+            conn = database.connect(url);
 
-            PreparedStatement pstmt = CJ.selectPreparedStatement(conn);
-            pstmt.setString(1, to.getValue());
-            pstmt.setString(2, from.getValue());
-            pstmt.setInt(3, timeInt);
-            ResultSet resultSet = pstmt.executeQuery();
+            // prepared statement is a select query with connection to the database
+            PreparedStatement preparedStatement = database.selectPreparedStatement(conn);
+            // parameter index must be given in the order of question marks in the select query
+            preparedStatement.setString(1, to.getValue());
+            preparedStatement.setString(2, from.getValue());
+            preparedStatement.setInt(3, timeInt);
+            // executeQuery() returns a resultSet
+            ResultSet resultSet = preparedStatement.executeQuery();
 
                 while (resultSet.next()) {
                     //splitting the time integer into minutes and hours for a nicer looking time format

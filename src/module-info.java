@@ -4,5 +4,5 @@ module ModuleFX {
     requires javafx.fxml;
     requires java.sql;
 
-    opens sample;
+    opens files;
 }

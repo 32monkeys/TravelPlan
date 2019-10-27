@@ -1,9 +1,9 @@
-package sample;
+package files;
 
 import java.sql.*;
 
 
-public class CourseJDBC {
+public class Database {
 
     public Connection connect(String url)
             throws SQLException {
