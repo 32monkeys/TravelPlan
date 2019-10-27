@@ -25,6 +25,7 @@ public class Controller {
 
     public void initialize() {
         //executed when GUI is ready
+        //adding all options
 
         submitButt.setOnAction(event -> updateText());
         for (int i = 2; i < 12; i++) {
@@ -47,6 +48,7 @@ public class Controller {
         CourseJDBC CJ = new CourseJDBC();
         Connection conn = null;
 
+        //converting String of options in time to Integer for comparison in sql query
         String timeString = time.getValue().toString().replace(":", "");
         int timeInt = Integer.parseInt(timeString);
 
@@ -62,11 +64,17 @@ public class Controller {
             ResultSet resultSet = pstmt.executeQuery();
 
                 while (resultSet.next()) {
+                    //splitting the time integer into minutes and hours for a nicer looking time format
+                    int arriM = resultSet.getInt(3)%100;
+                    int arriH = (resultSet.getInt(3)-arriM)/100;
+                    int depM = resultSet.getInt(4)%100;
+                    int depH = (resultSet.getInt(4)-arriM)/100;
+
                     textArea.appendText(
                             "From: " + resultSet.getString(1) +
-                                    " at: " + resultSet.getString(3) +
+                                    " at: " + String.format("%02d:%02d",arriH,arriM) +
                                     "   To: " + resultSet.getString(2) +
-                                    " at: " + resultSet.getString(4) + "\n");
+                                    " at: " + String.format("%02d:%02d",depH,depM) + "\n");
                 }
             conn.close();
         } catch (SQLException e) {
